@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/TravelMate
     username: root
-    password: # Enter Password
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   sql:
@@ -19,3 +19,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect  # MySQL에 맞는 Dialect 설정
+
+server:
+  api:
+    prefix: /api/v1  # API 프리픽스 설정
