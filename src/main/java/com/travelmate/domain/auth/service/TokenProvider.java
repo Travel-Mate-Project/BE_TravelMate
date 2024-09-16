@@ -1,6 +1,9 @@
 package com.travelmate.domain.auth.service;
 
 import com.travelmate.commons.constants.CookieName;
+import com.travelmate.commons.service.port.SystemHolder;
+import com.travelmate.domain.user.domain.User;
+import com.travelmate.domain.auth.domain.TokenType;
 import com.travelmate.domain.auth.dto.ClientUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -25,7 +28,6 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
     public static final String BEARER = "Bearer ";
     private static final String USERID = "userid";
-    private static final String USERNAME = "username";
     private static final String AUTHORITY_KEY = "auth";
     private final long accessTokenExpires = 2 * 60 * 60 * 1000; // 2시간
     private final long refreshTokenExpires = 14 * 60 * 60 * 1000; // 14시간
@@ -42,23 +44,19 @@ public class TokenProvider implements InitializingBean {
         this.encodedKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateAccessToken(Authentication authentication) {
-        long now = System.currentTimeMillis();
-        ClientUserDetails principal = (ClientUserDetails) authentication.getPrincipal();
+    public String generateToken(
+            final TokenType tokenType,
+            User user,
+            final SystemHolder systemHolder) {
+        long now = systemHolder.currentTimeMillis();
         Map<String, Object> payload = new HashMap<>();
-        payload.put(USERID, principal.getUserId());
-        payload.put(USERNAME, principal.getUsername());
-        final String authority =
-                principal.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.joining(","));
-        payload.put(AUTHORITY_KEY, authority);
+        payload.put(USERID, user.getUserId());
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
-                .setClaims(payload)
+                .setSubject(user.getUserEmail()) // subject: 토큰의 소유자를 명확하게 나타내는 용도 - 고유 식별자를 사용하는 것이 일반적이다.
+                .setClaims(payload) // claim: 추가적인 정보를 담은 키-값 쌍의 형태
                 .signWith(SignatureAlgorithm.HS256, encodedKey)
-                .setExpiration(new Date(now + accessTokenExpires))
+                .setExpiration(new Date(now + tokenType.getExpiresIn()))
                 .compact();
     }
 
@@ -67,7 +65,6 @@ public class TokenProvider implements InitializingBean {
         ClientUserDetails principal = (ClientUserDetails) authentication.getPrincipal();
         Map<String, Object> payload = new HashMap<>();
         payload.put(USERID, principal.getUserId());
-        payload.put(USERNAME, principal.getUsername());
         final String authority =
                 principal.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
