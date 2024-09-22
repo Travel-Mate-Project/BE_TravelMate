@@ -2,6 +2,12 @@ token:
     secret:
       key: bc0e1123830be23b99e69b46d808c6a6f9249ba900e4c38558fca57540851aee
 
+site:
+  aes256:
+    secret:
+      key: xQ8fBz8dP7TgH9JcVnX5oR1kS2zA7W41
+
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/TravelMate

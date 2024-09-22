@@ -47,8 +47,8 @@ public class User {
         this.updtId = updateId;
     }
 
-    public static User of(SignUpRequest request) {
-        return new User(request.userEmail(), request.password(), request.userName(), "N","System", LocalDateTime.now(), "System");
+    public static User of(SignUpRequest request, String password) {
+        return new User(request.userEmail(), password, request.userName(), "N","System", LocalDateTime.now(), "System");
     }
 
 }
