@@ -27,6 +27,7 @@ public class User {
 
     private String userName;
     private String password;
+    private String delYn;
     private String provider;
     private String providerId;
     private LocalDateTime regiDtm;
@@ -35,10 +36,11 @@ public class User {
     private String updtId;
     //TODO: 광고 수신 동의 여부도 추가해야함.
 
-    public User(String userEmail, String password, String userName, String regiId, LocalDateTime updtDtm, String updateId) {
+    public User(String userEmail, String password, String userName, String delYn, String regiId, LocalDateTime updtDtm, String updateId) {
         this.userEmail = userEmail;
         this.password = password;
         this.userName = userName;
+        this.delYn = delYn;
         this.regiDtm = LocalDateTime.now();
         this.regiId = regiId;
         this.updtDtm = updtDtm;
@@ -46,7 +48,7 @@ public class User {
     }
 
     public static User of(SignUpRequest request) {
-        return new User(request.userEmail(), request.password(), request.userName(), "System", LocalDateTime.now(), "System");
+        return new User(request.userEmail(), request.password(), request.userName(), "N","System", LocalDateTime.now(), "System");
     }
 
 }

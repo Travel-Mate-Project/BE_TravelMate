@@ -1,9 +1,9 @@
 package com.travelmate.domain.user.service;
 
-import com.travelmate.domain.user.domain.User;
-import com.travelmate.domain.user.repository.UserRepository;
 import com.travelmate.domain.auth.dto.NewUserValidationDto;
 import com.travelmate.domain.auth.exception.UserEmailDuplicatedBadRequest;
+import com.travelmate.domain.user.domain.User;
+import com.travelmate.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
