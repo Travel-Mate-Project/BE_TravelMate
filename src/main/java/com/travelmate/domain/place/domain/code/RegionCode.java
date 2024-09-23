@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "region_code")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

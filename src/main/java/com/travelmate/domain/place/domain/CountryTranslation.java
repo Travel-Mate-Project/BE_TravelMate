@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "country_translation")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
