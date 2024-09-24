@@ -8,6 +8,7 @@ CREATE TABLE user (
                       user_email VARCHAR(255) NOT NULL COMMENT '사용자 이메일',
                       user_name VARCHAR(255) NOT NULL COMMENT '사용자 이름',
                       password VARCHAR(255) NOT NULL COMMENT '패스워드',
+                      del_yn VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT '회원탈퇴여부',
                       provider VARCHAR(50) NULL COMMENT '소셜 로그인 제공자',
                       provider_id VARCHAR(255) NULL COMMENT '소셜 로그인 사용 ID',
                       regi_dtm DATE NOT NULL COMMENT '등록시간',

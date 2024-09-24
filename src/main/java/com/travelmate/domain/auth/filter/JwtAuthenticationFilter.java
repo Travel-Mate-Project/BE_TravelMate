@@ -46,7 +46,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -63,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String refreshToken = refreshTokenOptional.get();
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
         String accessToken =
-                tokenProvider.generateToken(TokenType.ACCESS, null, systemHolder); //TODO: null대신 user 넣어야하는지 보기
+                tokenProvider.generateToken(TokenType.ACCESS, authentication, systemHolder);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         response.setHeader(HttpHeaders.AUTHORIZATION, TokenProvider.BEARER + accessToken);
         response.setHeader(TokenType.REFRESH.getKey(), TokenProvider.BEARER + refreshToken);

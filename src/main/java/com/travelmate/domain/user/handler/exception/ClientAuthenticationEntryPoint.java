@@ -3,23 +3,14 @@ package com.travelmate.domain.user.handler.exception;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
 @Component
-public class ClientAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
-    private final HandlerExceptionResolver resolver;
-
-    public ClientAuthenticationEntryPoint(
-            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
-        this.resolver = resolver;
-    }
+public class ClientAuthenticationEntryPoint implements AuthenticationEntryPoint { // 인증되지 않은 사용자가 보호된 리소스에 접근하려 할 때 처리하는 동작을 정의하는 것
 
     @Override
     public void commence(
@@ -27,8 +18,8 @@ public class ClientAuthenticationEntryPoint implements AuthenticationEntryPoint 
             HttpServletResponse response,
             AuthenticationException authException)
             throws IOException, ServletException {
-
-        resolver.resolveException(
-                request, response, null, (Exception) request.getAttribute("exception"));
+        System.out.println("ClientAuthenticationEntryPoint");
+        // 인증되지 않은 요청이 발생했을 때 401 상태 코드를 반환
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication required");
     }
 }

@@ -1,17 +1,16 @@
 package com.travelmate.domain.auth.service;
 
-import com.travelmate.commons.constants.CookieName;
 import com.travelmate.commons.service.port.SystemHolder;
-import com.travelmate.domain.user.domain.User;
 import com.travelmate.domain.auth.domain.TokenType;
 import com.travelmate.domain.auth.dto.ClientUserDetails;
+import com.travelmate.domain.user.domain.User;
+import com.travelmate.domain.user.domain.UserRole;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +27,8 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
     public static final String BEARER = "Bearer ";
     private static final String USERID = "userid";
+    private static final String USEREMAIL = "useremail";
+    private static final String USERNAME = "username";
     private static final String AUTHORITY_KEY = "auth";
     private final long accessTokenExpires = 2 * 60 * 60 * 1000; // 2시간
     private final long refreshTokenExpires = 14 * 60 * 60 * 1000; // 14시간
@@ -46,15 +47,44 @@ public class TokenProvider implements InitializingBean {
 
     public String generateToken(
             final TokenType tokenType,
+            final Authentication authentication,
+            final SystemHolder systemHolder) {
+        long now = systemHolder.currentTimeMillis();
+        ClientUserDetails principal = (ClientUserDetails) authentication.getPrincipal();
+        Map<String, Object> payload = new HashMap<>();
+        payload.put(USERID, principal.getUserId());
+        payload.put(AUTHORITY_KEY, getUserRole(principal).name());
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .setClaims(payload)
+                .signWith(SignatureAlgorithm.HS256, encodedKey)
+                .setExpiration(new Date(now + tokenType.getExpiresIn()))
+                .compact();
+    }
+
+    private UserRole getUserRole(final ClientUserDetails principal) {
+        Optional<UserRole> maybeUserRole =
+                principal.getAuthorities().stream()
+                        .map(grantedAuthority -> UserRole.valueOf(grantedAuthority.getAuthority()))
+                        .findAny();
+        log.info(maybeUserRole.orElse(UserRole.USER).name());
+        return maybeUserRole.orElse(UserRole.USER);
+    }
+
+    public String generateToken(
+            final TokenType tokenType,
             User user,
             final SystemHolder systemHolder) {
         long now = systemHolder.currentTimeMillis();
         Map<String, Object> payload = new HashMap<>();
         payload.put(USERID, user.getUserId());
+        payload.put(USEREMAIL, user.getUserEmail());
+        payload.put(USERNAME, user.getUserName());
+        payload.put(AUTHORITY_KEY, UserRole.USER);
 
         return Jwts.builder()
-                .setSubject(user.getUserEmail()) // subject: 토큰의 소유자를 명확하게 나타내는 용도 - 고유 식별자를 사용하는 것이 일반적이다.
-                .setClaims(payload) // claim: 추가적인 정보를 담은 키-값 쌍의 형태
+                .setSubject(user.getUserEmail())
+                .setClaims(payload)
                 .signWith(SignatureAlgorithm.HS256, encodedKey)
                 .setExpiration(new Date(now + tokenType.getExpiresIn()))
                 .compact();
@@ -92,7 +122,7 @@ public class TokenProvider implements InitializingBean {
         String pw = getPw(token);
         ClientUserDetails principal =
                 new ClientUserDetails(userid, username, pw, authorities);
-        return new UsernamePasswordAuthenticationToken(principal, authorities);
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
     public boolean validateToken(String token) {
@@ -114,29 +144,6 @@ public class TokenProvider implements InitializingBean {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
-    }
-
-    public ResponseCookie makeTokenCookie(String key, String token) {
-        return ResponseCookie.from(key, token)
-                .httpOnly(true)
-                .sameSite("None")
-                .secure(true)
-                .maxAge(
-                        key.equals(CookieName.REFRESH_TOKEN.getCode())
-                                ? refreshTokenExpires
-                                : accessTokenExpires)
-                .path("/")
-                .build();
-    }
-
-    public ResponseCookie makeExpiredTokenCookie(String key, String token) {
-        return ResponseCookie.from(key, token)
-                .httpOnly(true)
-                .sameSite("None")
-                .secure(true)
-                .maxAge(0)
-                .path("/")
-                .build();
     }
 
     public String getUserid(String token) {
