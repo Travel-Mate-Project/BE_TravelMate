@@ -1,6 +1,7 @@
 package com.travelmate.domain.auth.filter;
 
 import com.travelmate.commons.exception.ErrorCode;
+import com.travelmate.commons.service.port.SystemHolder;
 import com.travelmate.domain.auth.domain.TokenType;
 import com.travelmate.domain.auth.service.TokenProvider;
 import jakarta.servlet.FilterChain;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
+    private final SystemHolder systemHolder;
 
     @Override
     protected void doFilterInternal(
@@ -44,7 +46,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -61,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String refreshToken = refreshTokenOptional.get();
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
         String accessToken =
-                tokenProvider.generateAccessToken(authentication);
+                tokenProvider.generateToken(TokenType.ACCESS, authentication, systemHolder);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         response.setHeader(HttpHeaders.AUTHORIZATION, TokenProvider.BEARER + accessToken);
         response.setHeader(TokenType.REFRESH.getKey(), TokenProvider.BEARER + refreshToken);
