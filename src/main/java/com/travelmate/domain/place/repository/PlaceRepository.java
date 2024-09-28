@@ -1,10 +1,8 @@
 package com.travelmate.domain.place.repository;
 
+import com.travelmate.domain.place.domain.Place;
 import com.travelmate.domain.place.domain.code.CityCode;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.travelmate.domain.place.domain.Place;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
