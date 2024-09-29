@@ -27,11 +27,12 @@ CREATE TABLE course (
                         start_date DATE NOT NULL COMMENT '시작일',
                         end_date DATE NOT NULL COMMENT '종료일',
                         place_list VARCHAR(255) NULL COMMENT '장소 list',
-                        total_time INT NOT NULL DEFAULT 0 COMMENT '총 소요시간',
+                        total_time INT NULL DEFAULT 0 COMMENT '총 소요시간',
+                        display_yn VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT '노출 여부',
                         save_yn VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'N: 임시저장, Y: 최종저장',
                         del_yn VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
-                        regi_dtm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '등록시간',
-                        regi_id VARCHAR(255) NOT NULL COMMENT '등록유저ID',
+                        regi_dtm DATETIME NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '등록시간',
+                        regi_id VARCHAR(255) NULL COMMENT '등록유저ID',
                         updt_dtm DATE NULL COMMENT '수정시간',
                         updt_id VARCHAR(255) NULL COMMENT '수정유저ID'
 );

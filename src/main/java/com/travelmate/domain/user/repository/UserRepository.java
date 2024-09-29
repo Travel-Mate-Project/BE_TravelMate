@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("UPDATE User u SET u.delYn = 'Y' WHERE u.userId = :userId")
     void updateDelYnByUserId(@Param("userId") Long userId);
+
+    User findByUserId(Long userId);
 }

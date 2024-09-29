@@ -19,4 +19,18 @@ public class CourseService {
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
+
+    public Course findBy(Integer id) {
+        return courseRepository.findById(id);
+    }
+
+    @Transactional
+    public Course save(Course course) {
+        return courseRepository.save(course);
+    }
+
+    @Transactional
+    public Course updateById(Course request) {
+        return courseRepository.save(request);
+    }
 }
