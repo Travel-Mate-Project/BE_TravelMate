@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "place")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,9 +16,7 @@ public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer placeId; // 장소 ID (기본키)
-
-
+    private Long placeId; // 장소 ID (기
     @Column(nullable = false, length = 255)
     private String name; // 이름
 
@@ -47,4 +46,16 @@ public class Place {
     private Double longitude; // 경도
 
     private Integer likeCount; // User에게 받은 좋아요 수
+
+    private Double averageRating; // 평균 평점
+
+    private String contact; // 연락처
+
+    private String website; // 웹사이트
+
+    private String openHours; // 이용시간
+
+    private String parking; // 주차 정보
+
+    private String holiday; // 휴일 정보
 }
