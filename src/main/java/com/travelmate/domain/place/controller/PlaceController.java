@@ -26,26 +26,29 @@ public class PlaceController {
 
     @Operation(summary = "지역 선택 시 여행지 반환", description = "지역 코드 전달받아 해당 지역의 모든 여행지 반환")
     @GetMapping("/cityCode")
-    public List<PlaceResponse> getPlacesByCityCode(
+    public ApiResponse<List<PlaceResponse>> getPlacesByCityCode(
             @Parameter(description = "조회할 지역의 ID", example = "1") @RequestParam("cityCodeId") Integer cityCodeId) {
-        log.info("### getplaceByCityCode cityCode : " + cityCodeId + "###");
-        return placeService.getPlacesByCityCode(cityCodeId);
+
+        return ApiResponse.OK(placeService.getPlacesByCityCode(cityCodeId));
     }
 
     @Operation(summary = "지역 선택 시 인기 여행지(명소) 반환", description = "지역 코드 전달받아 해당 지역의 인기 여행지를 좋아요 순으로 반환")
     @GetMapping("/popular/places")
-    public List<PlaceResponse> getPopularPlaces(
+    public ApiResponse<List<PlaceResponse>> getPopularPlaces(
             @Parameter(description = "조회할 지역의 ID", example = "1") @RequestParam(value = "cityCodeId", required = false) Integer cityCodeId) {
-        log.info("### getPopularPlaces cityCode : " + cityCodeId + "###");
-        return placeService.getPopularPlaces(cityCodeId);
+
+        return ApiResponse.OK(placeService.getPopularPlaces(cityCodeId));
     }
 
     @Operation(summary = "지역 선택 시 인기 맛집 반환", description = "지역 코드 전달받아 해당 지역의 인기 맛집을 좋아요 순으로 반환")
     @GetMapping("/popular/restaurants")
-    public List<PlaceResponse> getPopularRestaurants(
+    public ApiResponse<List<PlaceResponse>> getPopularRestaurants(
             @Parameter(description = "조회할 지역의 ID", example = "1") @RequestParam("cityCodeId") Integer cityCodeId) {
         log.info("### getPopularRestaurants cityCode : " + cityCodeId + "###");
-        return placeService.getPopularRestaurants(cityCodeId);
+
+        List<PlaceResponse> popularRestaurants = placeService.getPopularRestaurants(cityCodeId);
+
+        return ApiResponse.OK(popularRestaurants);
     }
 
     @Operation(summary = "Place의 상세 정보 반환")
@@ -56,7 +59,5 @@ public class PlaceController {
 
         return ApiResponse.OK(placeDetailResponse);
     }
-
-
 
 }
