@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CityCodeRepository extends JpaRepository<CityCode, Integer> {
+public interface CityRepository extends JpaRepository<CityCode, Integer> {
 
     // 나라를 선택하면 해당 나라의 지역 반환
     @Query("SELECT c FROM CityCode c WHERE c.country.countryId = ?1")

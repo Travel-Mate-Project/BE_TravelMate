@@ -1,4 +1,4 @@
-package com.travelmate.domain.place.dto;
+package com.travelmate.domain.place.dto.request;
 
 import lombok.Getter;
 import org.springframework.stereotype.Service;

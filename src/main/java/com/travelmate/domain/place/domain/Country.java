@@ -22,6 +22,7 @@ public class Country {
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CountryTranslation> translations;
+
 }
 
 

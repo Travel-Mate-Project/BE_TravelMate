@@ -1,4 +1,4 @@
-package com.travelmate.domain.place.dto;
+package com.travelmate.domain.place.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

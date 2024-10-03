@@ -1,5 +1,6 @@
-package com.travelmate.domain.place.dto;
+package com.travelmate.domain.place.dto.response;
 
+import com.travelmate.domain.place.domain.Place;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,4 +23,20 @@ public class PlaceDetailResponse {
     private List<String> images; // 이미지 리스트
     private List<ReviewResponse> reviews; // 후기 리스트
 
+    public static PlaceDetailResponse of(Place place,String rating, List<String> imageUrls, List<ReviewResponse> reviews) {
+        return new PlaceDetailResponse(
+                place.getPlaceId(),
+                place.getName(),
+                place.getDescription(),
+                place.getAddr(),
+                place.getContact(),
+                place.getWebsite(),
+                place.getOpenHours(),
+                place.getParking(),
+                place.getHoliday(),
+                rating,
+                imageUrls,
+                reviews
+        );
+    }
 }

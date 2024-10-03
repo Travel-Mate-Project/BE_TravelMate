@@ -1,20 +1,16 @@
 package com.travelmate.domain.place.service;
 
-import com.travelmate.domain.auth.dto.ClientUserDetails;
 import com.travelmate.domain.place.domain.Place;
 import com.travelmate.domain.place.domain.Review;
-import com.travelmate.domain.place.dto.ReviewRequest;
-import com.travelmate.domain.place.dto.ReviewResponse;
+import com.travelmate.domain.place.dto.request.ReviewRequest;
+import com.travelmate.domain.place.dto.response.ReviewResponse;
 import com.travelmate.domain.place.repository.PlaceRepository;
 import com.travelmate.domain.place.repository.ReviewRepository;
-import com.travelmate.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
