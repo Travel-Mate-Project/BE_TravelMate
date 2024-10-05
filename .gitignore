@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### ec2 ###
+./src/main/resources/ec2/**

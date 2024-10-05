@@ -1,6 +1,5 @@
 package com.travelmate.domain.user.handler.exception;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +16,7 @@ public class ClientAuthenticationEntryPoint implements AuthenticationEntryPoint 
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException)
-            throws IOException, ServletException {
-        System.out.println("ClientAuthenticationEntryPoint");
+            throws IOException {
         // 인증되지 않은 요청이 발생했을 때 401 상태 코드를 반환
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication required");
     }
