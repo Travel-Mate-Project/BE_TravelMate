@@ -3,10 +3,7 @@ package com.travelmate.domain.place.domain;
 import com.travelmate.domain.place.domain.code.CityCode;
 import com.travelmate.domain.place.domain.code.RegionCode;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "place")
