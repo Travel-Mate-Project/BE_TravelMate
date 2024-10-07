@@ -1,20 +1,17 @@
 package com.travelmate.domain.user.domain;
 
 import com.travelmate.domain.auth.controller.dto.request.SignUpRequest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.travelmate.domain.course.domain.Course;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-//@DynamicInsert
-//@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
@@ -35,6 +32,9 @@ public class User {
     private LocalDateTime updtDtm;
     private String updtId;
     //TODO: 광고 수신 동의 여부도 추가해야함.
+
+    @OneToMany(mappedBy = "user")
+    private List<Course> course;
 
     public User(String userEmail, String password, String userName, String delYn, String regiId, LocalDateTime updtDtm, String updateId) {
         this.userEmail = userEmail;

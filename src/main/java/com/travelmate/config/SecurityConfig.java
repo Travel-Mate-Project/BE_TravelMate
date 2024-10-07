@@ -6,7 +6,6 @@ import com.travelmate.domain.auth.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -45,6 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/auth/withdrawal")
                                 .authenticated()
                                 .requestMatchers("/api/v1/user/**")
+                                .authenticated()
+                                .requestMatchers("/api/v1/course/**")
                                 .authenticated()
                                 .anyRequest()
                                 .permitAll() // All other requests need authentication

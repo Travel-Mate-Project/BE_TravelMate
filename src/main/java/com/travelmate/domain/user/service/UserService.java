@@ -35,4 +35,8 @@ public class UserService {
             throw new UserEmailDuplicatedBadRequest();
         }
     }
+
+    public User findByUserId(Long userId) {
+        return userRepository.findByUserId(userId);
+    }
 }
