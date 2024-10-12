@@ -16,7 +16,8 @@ public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long placeId; // 장소 ID (기
+    private Long placeId; // 장소 ID
+
     @Column(nullable = false, length = 255)
     private String name; // 이름
 
@@ -53,7 +54,9 @@ public class Place {
 
     private String website; // 웹사이트
 
-    private String openHours; // 이용시간
+    private String openTime; // Open 시간
+
+    private String closeTime; // Close 시간
 
     private String parking; // 주차 정보
 
