@@ -16,7 +16,8 @@ public class PlaceDetailResponse {
     private String address; // 주소
     private String contact; // 연락처
     private String website; // 웹사이트
-    private String openHours; // 이용시간
+    private String openTime; // open시간
+    private String closeTime; // close시간
     private String parking; // 주차 정보
     private String holiday; // 휴일 정보
     private String rating; // 평점
@@ -31,7 +32,8 @@ public class PlaceDetailResponse {
                 place.getAddr(),
                 place.getContact(),
                 place.getWebsite(),
-                place.getOpenHours(),
+                place.getOpenTime(),
+                place.getCloseTime(),
                 place.getParking(),
                 place.getHoliday(),
                 rating,
