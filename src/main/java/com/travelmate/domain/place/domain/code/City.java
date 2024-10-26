@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "city_code")
+@Table(name = "city")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CityCode {
+public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cityCodeId;
+    private Integer cityId;
 
     private Integer code; // openAPI에서 사용하는 도시 코드
 

@@ -1,6 +1,7 @@
 package com.travelmate.domain.user.controller;
 
 import com.travelmate.commons.web.ApiResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("${server.api.prefix}/user")
 public class UserController {
+
+    @Hidden
     @PostMapping("/test")
     public ApiResponse<String> test(
             HttpServletRequest httpServletRequest,

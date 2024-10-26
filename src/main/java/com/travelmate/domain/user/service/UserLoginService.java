@@ -31,6 +31,7 @@ public class UserLoginService {
 
     public User login(LoginRequest request) {
         final Optional<User> optionalUser = userRepository.findUserByUserEmailAndPassword(request.userEmail(), aes256.encrypt(request.password()));
+
         if (!optionalUser.isPresent()) {
             throw new InvalidIdPwException();
         }

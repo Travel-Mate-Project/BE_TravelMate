@@ -9,21 +9,21 @@ import lombok.NoArgsConstructor;
  * 광역시, 도 코드 테이블
  */
 @Entity
-@Table(name = "region_code")
+@Table(name = "region")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegionCode {
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer regionCodeId; // 시도 ID(기본키)
+    private Integer regionId; // 시도 ID(기본키)
 
     private Integer code; // 시도코드
 
     private String name; // 시도명
 
     @ManyToOne
-    @JoinColumn(name = "city_code_id", nullable = false)
-    private CityCode cityCode;
+    @JoinColumn(name = "city_id", nullable = false)
+    private City cityCode;
 }

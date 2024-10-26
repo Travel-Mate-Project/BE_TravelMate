@@ -8,6 +8,7 @@ import com.travelmate.domain.course.dto.response.CourseResponse;
 import com.travelmate.domain.course.service.CourseService;
 import com.travelmate.domain.user.domain.User;
 import com.travelmate.domain.user.service.UserService;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class CourseController {
     private final CourseService courseService;
     private final UserService userService;
 
+    @Hidden
     @GetMapping
     public ApiResponse<List<CourseResponse>> findAll() { //TODO: filter 추가하기
         List<Course> course = courseService.findAll();
@@ -34,12 +36,14 @@ public class CourseController {
         return ApiResponse.OK(courseResponses);
     }
 
+    @Hidden
     @GetMapping("/{id}")
     public ApiResponse<CourseResponse> findById(@PathVariable("id") Integer id) {
         Course course = courseService.findBy(id);
         return ApiResponse.OK(CourseResponse.of(course));
     }
 
+    @Hidden
     @PostMapping
     public ApiResponse<CourseResponse> save(@RequestBody @Valid CourseCreateRequest request) {
         request.validate();
@@ -48,6 +52,7 @@ public class CourseController {
         return ApiResponse.OK(CourseResponse.of(course));
     }
 
+    @Hidden
     @PutMapping
     public ApiResponse<CourseResponse> update(@RequestBody CourseUpdateRequest request) {
         request.validate();
