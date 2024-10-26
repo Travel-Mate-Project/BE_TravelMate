@@ -20,21 +20,23 @@ public class PlaceResponse {
     private Integer likeCount; // User에게 받은 좋아요 수
     private String averageRating; // 평균 평점
     private Integer reviewCount; // 댓글 개수
-    private List<String> imageUrls; // 이미지 URL 리스트
+    private String firstImage; // 첫 번째 이미지 URL
+    private String cityName; // 도시 이름
 
-    public static PlaceResponse of(Place place, String averageRating, int reviewCount, List<String> imageUrls){
+    public static PlaceResponse of(Place place, String averageRating, int reviewCount, String cityName){
         return new PlaceResponse(
                 place.getPlaceId(),
                 place.getName(),
                 place.getDescription(),
                 place.getAddr(),
-                place.getType(),
+                place.getType().name(),
                 place.getLatitude(),
                 place.getLongitude(),
                 place.getLikeCount(),
                 averageRating,
                 reviewCount,
-                imageUrls
+                place.getFirstImage(), // firstImage 필드 추가
+                cityName
         );
     }
 }

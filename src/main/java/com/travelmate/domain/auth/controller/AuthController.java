@@ -13,6 +13,9 @@ import com.travelmate.domain.auth.domain.TokenType;
 import com.travelmate.domain.auth.service.AuthFacadeService;
 import com.travelmate.domain.auth.service.TokenProvider;
 import com.travelmate.domain.user.domain.User;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,21 +26,25 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("${server.api.prefix}/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthFacadeService authFacadeService;
     private final TokenProvider tokenProvider;
     private final SystemHolder systemHolder;
 
-    @PostMapping("/signup") // 회원가입
+    @Operation(summary = "회원가입", description = "새로운 사용자를 등록합니다.")
+    @PostMapping("/signup")
     public ApiResponse<SignUpResponse> signUp(
+            @Parameter(description = "회원가입 요청 데이터", required = true)
             @Valid @RequestBody SignUpRequest request) {
+
         final User user = authFacadeService.signUp(request);
 
         return ApiResponse.OK(SignUpResponse.of(user.getUserId()));
     }
 
+    // 토큰 발급
     private Map<String, String> issueToken(
             final User user
             ) {
@@ -46,17 +53,21 @@ public class AuthController {
         return Map.of("accessToken", accessToken, "refreshToken", refreshToken);
     }
 
+    @Operation(summary = "로그인")
     @PostMapping("/login") // 로그인
     public ApiResponse<LoginResponse> login(
             @Valid @RequestBody LoginRequest request
     ) {
         // id, pw 맞는지 확인
         User user = authFacadeService.login(request);
-        final Map<String, String> tokens =
-                issueToken(user);
+
+        // 토큰 발급
+        final Map<String, String> tokens = issueToken(user);
+
         return ApiResponse.OK(LoginResponse.of(user.getUserId(), tokens));
     }
 
+    @Hidden
     @PutMapping("/password") // 비밀번호 변경 TODO: 보류
     public ApiResponse<EmptyResponse> changePassword(
             @Valid @RequestBody PasswordUpdateRequest request
@@ -65,6 +76,7 @@ public class AuthController {
         return ApiResponse.NO_CONTENT();
     }
 
+    @Hidden
     @PutMapping("/withdrawal") // 회원탈퇴
     public ApiResponse<EmptyResponse> withdrawal(
             @Valid @RequestBody WithdrawalRequest request

@@ -1,7 +1,7 @@
 package com.travelmate.domain.place.domain;
 
-import com.travelmate.domain.place.domain.code.CityCode;
-import com.travelmate.domain.place.domain.code.RegionCode;
+import com.travelmate.domain.place.domain.code.City;
+import com.travelmate.domain.place.domain.code.Region;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,17 +30,18 @@ public class Place {
 
     @ManyToOne
     @JoinColumn(name = "city_code_id", nullable = false)
-    private CityCode cityCodeId; // 외래 키로 도시 연결
+    private City cityId; // 외래 키로 도시 연결
 
     @ManyToOne
     @JoinColumn(name = "region_code_id", nullable = false)
-    private RegionCode regionCodeId; // 외래 키로 시도코드 연결
+    private Region regionId; // 외래 키로 시도코드 연결
 
     @Column(length = 255)
     private String addr; // 주소
 
-    @Column(length = 50)
-    private String type; // 분류 (명소, 식당 등)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PlaceType type;
 
     private Double latitude; // 위도
 
@@ -54,11 +55,24 @@ public class Place {
 
     private String website; // 웹사이트
 
-    private String openTime; // Open 시간
-
-    private String closeTime; // Close 시간
+    private String operatingHours; // 영업시간
 
     private String parking; // 주차 정보
 
     private String holiday; // 휴일 정보
+
+    private String infocenter; // 안내 전화번호
+
+    private String firstMenu; // 대표 메뉴
+
+    private String treatMenu; // 메뉴 항목
+
+    private String smoking; // 흡연 여부
+
+    private String packing; // 포장 가능 여부
+
+    private String reservation; // 예약 가능 여부
+
+    private String firstImage; // 대표 이미지
+
 }

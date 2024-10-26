@@ -22,8 +22,10 @@ public class AuthFacadeService {
 
     @Transactional
     public User signUp(final SignUpRequest request) {
+        // 회원가입 중복 검사
         userService.validateNewMemberDuplicated(NewUserValidationDto.of(request));
 
+        // 회원가입
         User user = userLoginService.signUpEmail(request);
         return user;
     }
